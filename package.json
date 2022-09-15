@@ -1,0 +1,21 @@
+{
+	"name": "wss",
+	"version": "1.0.0",
+	"description": "WSS POC for TailorCare NavApp",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"server": "nodemon server.js"
+	},
+	"author": "HLRIvera",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.18.1",
+		"nodemon": "^2.0.19",
+		"ws": "^8.8.1"
+	},
+	"optionalDependencies": {
+		"bufferutil": "^4.0.6",
+		"utf-8-validate": "^5.0.9"
+	}
+}

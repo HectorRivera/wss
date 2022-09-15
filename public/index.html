@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <title>Websocket Practice</title>
+  <style>
+    body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+		sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+    font-size: .75em;
+    }
+    .container{
+        margin-left:20px;
+        padding:20px;
+        width:350px;
+    }
+    .top-container{
+        padding:20px;
+        border: solid 0.5px darkgreen;
+        border-radius: 6px;
+    }
+    h3{
+        margin: 5px 0;
+    }
+    input, textarea{
+        width:285px;
+        display:block;
+        margin-bottom:25px;
+    }
+    button{
+        width:293px;
+        line-height: 2em;
+        padding:0px;
+    }
+    
+  </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="top-container">
+            <h3>Websocket Testing Form</h3>
+            <span>Field:</span><br/>
+            <input id="fieldName"/>
+            <span>Value:</span><br/>
+            <input id="fieldValue" />
+            <button onClick="fire()">Send</button>
+        </div>
+        <div class="bottom-container">
+            <h3>Websocket Results</h3>
+            <div id='messages'></div>
+        </div>
+    </div>
+<script>
+    const getElement = (id) => document.getElementById(id);
+    const addMessage = (message) => {
+        console.log('Inside Add Message :', message);
+        
+        const pTag = document.createElement('p');
+        pTag.appendChild(document.createTextNode(JSON.stringify(message)));
+        getElement('messages').appendChild(pTag);
+    };
+
+    const ws = new WebSocket('ws://74.208.159.203:3030');
+    ws.onopen = () => { 
+      console.log('Now connected'); 
+    };
+
+    ws.onmessage = (event) => {
+        const messages = JSON.parse(event.data);
+        messages.forEach(addMessage);
+    };
+
+    const fire = () => {
+        const fieldName = getElement('fieldName').value || '???';
+        const fieldValueTemp = getElement('fieldValue').value || '???';
+        const fieldValue = (fieldValueTemp.toLowerCase()===('true'))?true:fieldValueTemp;
+        let sendObj= {};
+        sendObj[fieldName] = fieldValue;
+        console.log(sendObj);
+        ws.send(JSON.stringify(sendObj));
+        getElement('fieldName').value = '';
+        getElement('fieldValue').value = '';
+        
+};
+
+    </script>
+</body>
+</html>
